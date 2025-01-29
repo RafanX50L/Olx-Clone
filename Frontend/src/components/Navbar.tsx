@@ -9,12 +9,27 @@ import "react-toastify/ReactToastify.css";
 import { useGlobal } from "../globalContext";
 import { LoginSignup } from "./LoginSignup";
 
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  year?: number;
+  distance?: string;
+  location: string;
+  date: string;
+  images: string[];
+  isFeatured?: boolean;
+  details?: string;
+}
 interface Location {
   id: number;
   name: string;
 }
+interface navbarProps{
+  setProducts?:(product:Product)=>void;
+}
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<navbarProps> = ({setProducts}) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
@@ -176,7 +191,7 @@ const Navbar: React.FC = () => {
               <Plus className="h-5 w-5 " />
               <span>SELL</span>
             </button>
-            {AddProductDiv && <AddProduct close={setAddProductDiv} />}
+            {AddProductDiv && <AddProduct close={setAddProductDiv} setProducts={setProducts} />}
           </div>
         </div>
       </nav>

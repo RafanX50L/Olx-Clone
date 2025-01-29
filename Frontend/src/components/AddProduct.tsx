@@ -11,10 +11,21 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
-import { useGlobal } from "../globalContext";
-
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  year?: number;
+  distance?: string;
+  location: string;
+  date: string;
+  images: string[];
+  isFeatured?: boolean;
+  details?: string;
+}
 interface AddProductProps {
-  close: () => void;
+  close: (value:boolean) => void;
+  setProducts:(product:Product)=>void;
 }
 
 interface FormData {
@@ -28,7 +39,7 @@ interface FormData {
   images: File[];
 }
 
-const AddProduct: React.FC<AddProductProps> = ({ close }) => {
+const AddProduct: React.FC<AddProductProps> = ({ close,setProducts }) => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -39,7 +50,6 @@ const AddProduct: React.FC<AddProductProps> = ({ close }) => {
     owners: "",
     images: [],
   });
-  const {globalVar, setGlobalVar} = useGlobal()
 
   const ownerOptions: string[] = ["1st", "2nd", "3rd", "4th", "4+"];
   const [loading, setLoading] = useState<boolean>(false)
@@ -65,7 +75,7 @@ const AddProduct: React.FC<AddProductProps> = ({ close }) => {
   };
 
   const handleAddProduct = async () => {
-    // setLoading(true);
+    setLoading(true);
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
@@ -90,12 +100,16 @@ const AddProduct: React.FC<AddProductProps> = ({ close }) => {
       if (response.status === 201) {
         toast.success("Product added successfully! 🎉");
         setLoading(false)
-        close();
+        setProducts(response.data.product)
+        console.log(response)
+        close(false);
       } else {
-        alert(response.message);
+        alert(response.data.message);
       }
     } catch (error) {
       console.error("Error adding product:", error);
+      toast.error("Product added failed! ");
+      setLoading(false)
     }
   };
 
@@ -103,7 +117,7 @@ const AddProduct: React.FC<AddProductProps> = ({ close }) => {
     <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-full max-w-xl mx-4 relative max-h-[90vh] flex flex-col">
         <button
-          onClick={close}
+          onClick={()=>close(false)}
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
         >
           <X className="w-6 h-6" />
