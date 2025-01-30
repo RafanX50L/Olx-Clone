@@ -10,10 +10,14 @@ interface loginOrSignup {
   password: string;
 }
 
+interface propes{
+  setAccountOpen:(value:boolean)=>void;
+  slides: { icon: string; title: string }[];
+}
 
-export const LoginSignup = ({ setAccountOpen, slides }) => {
+export const LoginSignup = ({ setAccountOpen, slides }:propes) => {
 
-  const { globalVar, setGlobalVar } = useGlobal();
+  const {  setGlobalVar } = useGlobal();
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
   const [SignUp, setSignUp] = useState<boolean>(false);
@@ -203,7 +207,7 @@ export const LoginSignup = ({ setAccountOpen, slides }) => {
 
                 {/* Slider dots */}
                 <div className="flex justify-center space-x-2 mb-8">
-                  {slides.map((_, index) => (
+                  {slides.map((_, index:number) => (
                     <button
                       key={index}
                       className={`w-2 h-2 rounded-full transition-colors ${

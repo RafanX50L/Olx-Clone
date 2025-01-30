@@ -25,7 +25,7 @@ interface Product {
 }
 interface AddProductProps {
   close: (value:boolean) => void;
-  setProducts:(product:Product)=>void;
+  addToProducts:(product:Product)=>void ;
 }
 
 interface FormData {
@@ -39,7 +39,7 @@ interface FormData {
   images: File[];
 }
 
-const AddProduct: React.FC<AddProductProps> = ({ close,setProducts }) => {
+const AddProduct: React.FC<AddProductProps> = ({ close,addToProducts }) => {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -100,7 +100,7 @@ const AddProduct: React.FC<AddProductProps> = ({ close,setProducts }) => {
       if (response.status === 201) {
         toast.success("Product added successfully! 🎉");
         setLoading(false)
-        setProducts(response.data.product)
+        addToProducts(response.data.product)
         console.log(response)
         close(false);
       } else {

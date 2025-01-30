@@ -26,10 +26,10 @@ interface Location {
   name: string;
 }
 interface navbarProps{
-  setProducts?:(product:Product)=>void;
+  addToProducts:(product:Product)=>void;
 }
 
-const Navbar: React.FC<navbarProps> = ({setProducts}) => {
+const Navbar: React.FC<navbarProps> = ({addToProducts}) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
@@ -191,7 +191,7 @@ const Navbar: React.FC<navbarProps> = ({setProducts}) => {
               <Plus className="h-5 w-5 " />
               <span>SELL</span>
             </button>
-            {AddProductDiv && <AddProduct close={setAddProductDiv} setProducts={setProducts} />}
+            {AddProductDiv && <AddProduct close={setAddProductDiv} addToProducts={addToProducts} />}
           </div>
         </div>
       </nav>

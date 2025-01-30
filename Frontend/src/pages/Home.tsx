@@ -21,7 +21,7 @@ interface Product {
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
-  const handleUpdate = (product:Product)=>{
+  const handleUpdate = (product:Product):void =>{
     setProducts([...products,product])
   }
   useEffect(() => {
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
         draggable
         theme="dark"
       />
-      <Navbar setProducts={handleUpdate} />
+      <Navbar addToProducts={handleUpdate} />
       <FreshRecommendations products={products}  />
       <Footer />
     </div>
